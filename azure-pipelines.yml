@@ -69,7 +69,11 @@ steps:
     displayName: Instalar dependencias (npm ci)
 
   # 3. Dependencias vulnerables. Falla ante severidad alta o crítica.
-  - script: npm audit --audit-level=high
+  # --omit=dev: solo se auditan las dependencias que llegan a producción.
+  # Riesgo aceptado y documentado en docs/seguridad.md: braces (cadena de
+  # eslint-config-next, solo desarrollo) no tiene versión corregida en npm.
+  # Cuando la tenga, volver a "npm audit --audit-level=high" sin --omit=dev.
+  - script: npm audit --omit=dev --audit-level=high
     displayName: Revisar dependencias npm (npm audit)
 
   - script: |
