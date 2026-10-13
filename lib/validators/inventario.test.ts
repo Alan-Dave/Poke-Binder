@@ -98,4 +98,12 @@ describe("listarInventarioSchema", () => {
     expect(listarInventarioSchema.safeParse({ pagina: 0 }).success).toBe(false);
     expect(listarInventarioSchema.safeParse({ pagina: 1.5 }).success).toBe(false);
   });
+
+  it("da un mensaje en español cuando la página no es un número", () => {
+    for (const pagina of [Number.NaN, "2" as unknown as number]) {
+      const r = listarInventarioSchema.safeParse({ pagina });
+      expect(r.success).toBe(false);
+      if (!r.success) expect(r.error.issues[0].message).toBe("La página debe ser un número.");
+    }
+  });
 });
