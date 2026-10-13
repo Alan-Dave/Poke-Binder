@@ -40,7 +40,7 @@ export const eliminarDelInventarioSchema = z.object({
 
 export const listarInventarioSchema = z.object({
   pagina: z
-    .number()
+    .number({ error: "La página debe ser un número." })
     .int({ error: "La página debe ser un número entero." })
     .min(1, { error: "La página mínima es 1." })
     .default(1),
