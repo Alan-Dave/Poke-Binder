@@ -29,7 +29,7 @@ export type FilaInventario = {
 };
 
 // El catálogo y el inventario paginan de 30 en 30 (ver CLAUDE.md).
-const TAMANO_PAGINA = 30;
+export const TAMANO_PAGINA = 30;
 
 // Códigos de PostgreSQL que producen las restricciones de la tabla a
 // propósito. Cualquier otro es un fallo inesperado y su detalle no se muestra.
@@ -48,7 +48,7 @@ function traducirError(codigo: string | undefined, origen: string, detalle: unkn
   return "No se pudo completar la operación.";
 }
 
-const SIN_SESION = "Se requiere una sesión iniciada.";
+export const SIN_SESION = "Se requiere una sesión iniciada.";
 // Mismo mensaje si la fila no existe o es de otro usuario (RLS la oculta):
 // no se confirma que el id de un registro ajeno existe.
 const NO_ENCONTRADO = "El registro no existe o no te pertenece.";
