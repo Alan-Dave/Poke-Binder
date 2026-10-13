@@ -95,3 +95,25 @@ ejecutó la prueba contra el proyecto remoto.
   borrar la cuenta en Supabase Auth arrastra por cascada perfil, inventario y
   mazos; la auditoría queda con `usuario_id` huérfano a propósito. Si la Ley
   21.719 exige un flujo formal de solicitud y respuesta, es un PBI aparte.
+
+## Riesgo aceptado: `braces` en las dependencias de desarrollo
+
+`npm audit` reporta una vulnerabilidad de severidad alta en `braces`
+(GHSA-vfj7-8cjw-p6xm: denegación de servicio por patrones anidados). La
+versión instalada, 3.0.3, es la última publicada en npm y el aviso cubre todas
+las versiones: **no existe una versión corregida**. Llega por esta cadena:
+`eslint-config-next` → `@next/eslint-plugin-next` → `fast-glob` →
+`micromatch` → `braces`.
+
+- **Por qué se acepta:** toda la cadena es dependencia de desarrollo (ESLint).
+  No se incluye en el build de producción ni procesa entrada de usuarios; solo
+  expande patrones de archivos del propio repositorio.
+- **Qué cambió en el pipeline:** el paso de dependencias npm pasó a
+  `npm audit --omit=dev --audit-level=high`. Las dependencias de producción
+  siguen bloqueando el PR ante severidad alta o crítica; las de desarrollo
+  dejan de hacerlo.
+- **La alternativa descartada:** `npm audit fix --force` propone bajar a
+  `eslint-config-next@14.2.35`, un retroceso de dos versiones mayores.
+- **Cuándo revisarlo:** si `braces` publica una versión posterior a 3.0.3, o
+  `eslint-config-next` deja de depender de ella, volver a
+  `npm audit --audit-level=high` sin `--omit=dev`.
