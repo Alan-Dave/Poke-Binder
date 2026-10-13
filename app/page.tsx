@@ -15,6 +15,17 @@ export default async function Home() {
         Gestión de colecciones físicas de Pokémon TCG
       </p>
 
+      <nav aria-label="Principal" className="flex gap-4 text-sm">
+        <Link href="/catalogo" className="underline">
+          Catálogo
+        </Link>
+        {perfil && (
+          <Link href="/coleccion" className="underline">
+            Mi colección
+          </Link>
+        )}
+      </nav>
+
       {perfil ? (
         <div className="flex flex-col items-center gap-3">
           <p>Sesión iniciada como {perfil.nombreVisible ?? perfil.correo ?? "usuario"}.</p>
